@@ -1,62 +1,62 @@
 export const profile = {
   name: 'Carlos Gordillo',
-  role: 'Ingeniero Mecatrónico',
-  // Datos de contacto ya publicados en el portafolio de Software/Full Stack.
+  role: 'Mechatronics Engineer',
+  // Contact details already published in the existing software portfolio.
   email: 'cmgm26200@gmail.com',
   github: 'https://github.com/c26200',
-  statement: 'Diseño ideas. Construyo sistemas.',
+  statement: 'I shape ideas. I build systems.',
 };
 
-// Estos temas son una estructura inicial. Completar con las competencias,
-// herramientas y tecnologías que Carlos confirme como propias.
+// Starting categories only. Confirm the skills, tools and technologies before
+// presenting these as personal claims.
 export const practiceAreas = [
   {
-    id: 'mecanica',
-    label: 'Diseño mecánico',
-    prompt: 'Añadir CAD, mecanismos y procesos de fabricación que dominas.',
+    id: 'mechanical-design',
+    label: 'Mechanical design',
+    prompt: 'Add the CAD tools, mechanisms and manufacturing processes you know.',
     mark: 'A',
   },
   {
-    id: 'electronica',
-    label: 'Electrónica y embebidos',
-    prompt: 'Añadir sensores, electrónica y plataformas que has utilizado.',
+    id: 'electronics-embedded',
+    label: 'Electronics and embedded systems',
+    prompt: 'Add the sensors, electronics and platforms you have used.',
     mark: 'B',
   },
   {
-    id: 'control',
-    label: 'Control y automatización',
-    prompt: 'Añadir control, instrumentación, PLC y sistemas integrados reales.',
+    id: 'control-automation',
+    label: 'Control and automation',
+    prompt: 'Add the control, instrumentation, PLCs and integrated systems you have worked with.',
     mark: 'C',
   },
 ];
 
-// Plantillas visuales vacías; no representan proyectos reales.
+// Empty visual templates; these do not represent completed projects.
 export const projectPrompts = [
   {
-    id: 'ficha-mecanica',
-    label: 'MECÁNICA / CAD',
-    title: '[Nombre del proyecto]',
-    prompt: 'Describe el reto, tu aporte y el resultado verificable.',
+    id: 'mechanics-project-card',
+    label: 'MECHANICAL / CAD',
+    title: '[Project name]',
+    prompt: 'Describe the challenge, your contribution and a verifiable result.',
     visual: 'mechanism',
     tilt: '-1.6deg',
-    position: 'alto',
+    position: 'high',
   },
   {
-    id: 'ficha-electronica',
-    label: 'ELECTRÓNICA / CONTROL',
-    title: '[Nombre del proyecto]',
-    prompt: 'Añade el proceso, los componentes reales y las pruebas realizadas.',
+    id: 'electronics-project-card',
+    label: 'ELECTRONICS / CONTROL',
+    title: '[Project name]',
+    prompt: 'Add the process, actual components and tests performed.',
     visual: 'circuit',
     tilt: '1.5deg',
-    position: 'medio',
+    position: 'middle',
   },
   {
-    id: 'ficha-integracion',
-    label: 'INTEGRACIÓN / PROTOTIPO',
-    title: '[Nombre del proyecto]',
-    prompt: 'Explica qué subsistemas conectaste y qué aprendiste.',
+    id: 'integration-project-card',
+    label: 'INTEGRATION / PROTOTYPE',
+    title: '[Project name]',
+    prompt: 'Explain which subsystems you connected and what you learned.',
     visual: 'signal',
     tilt: '-.8deg',
-    position: 'bajo',
+    position: 'low',
   },
 ];

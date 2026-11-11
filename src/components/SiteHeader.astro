@@ -2,23 +2,23 @@
 import { profile } from '../data/portfolio';
 
 const links = [
-  { href: '#areas', label: 'Áreas' },
-  { href: '#proyectos', label: 'Proyectos' },
-  { href: '#proceso', label: 'Proceso' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '#areas', label: 'Areas' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#process', label: 'Process' },
+  { href: '#contact', label: 'Contact' },
 ];
 ---
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="#inicio" aria-label={`${profile.name}, inicio`}>
+    <a class="brand" href="#home" aria-label={`${profile.name}, home`}>
       <span class="brand-mark" aria-hidden="true">CG</span>
-      <span class="brand-name"><strong>{profile.name}</strong><small>Mecatrónica</small></span>
+      <span class="brand-name"><strong>{profile.name}</strong><small>Mechatronics</small></span>
     </a>
-    <nav aria-label="Navegación principal">
+    <nav aria-label="Main navigation">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </nav>
-    <span class="header-status"><i aria-hidden="true"></i> Portafolio de hardware</span>
+    <span class="header-status"><i aria-hidden="true"></i> Hardware portfolio</span>
   </div>
 </header>
 

@@ -2,14 +2,14 @@
 import { projectPrompts } from '../data/portfolio';
 ---
 
-<section class="projects section-shell" id="proyectos" aria-labelledby="projects-title">
+<section class="projects section-shell" id="projects" aria-labelledby="projects-title">
   <div class="section-heading">
     <div>
-      <p class="eyebrow">Fichas de taller</p>
-      <h2 id="projects-title">Proyectos que<br />cuentan el proceso.</h2>
+      <p class="eyebrow">Workbench project cards</p>
+      <h2 id="projects-title">Projects that<br />show the process.</h2>
     </div>
     <p>
-      Tarjetas de trabajo por completar con proyectos reales. Se pueden reacomodar como hojas sobre la mesa.
+      Replace these draft cards with real projects. Drag them around like sheets on a workbench.
     </p>
   </div>
 
@@ -21,14 +21,14 @@ import { projectPrompts } from '../data/portfolio';
         data-draggable
         data-drag-key={project.id}
         tabindex="0"
-        aria-label={`${project.title}. Ficha de proyecto movible`}
+        aria-label={`${project.title}. Movable project card`}
         aria-describedby="drag-instructions"
       >
         <div class="card-topline">
-          <span>FICHA / POR COMPLETAR</span>
+          <span>PROJECT CARD / DRAFT</span>
           <span class="card-pin" aria-hidden="true"></span>
         </div>
-        <div class={`project-art art-${project.visual}`} aria-label="Ilustración temporal, reemplazar con imagen del proyecto" role="img">
+        <div class={`project-art art-${project.visual}`} aria-label="Temporary illustration, replace with a project image" role="img">
           {project.visual === 'mechanism' && (
             <svg viewBox="0 0 320 190" fill="none" aria-hidden="true">
               <path class="drawing-line" d="M45 133h225M60 133V60h67v73m0-38h76v38m0-63h49v63" />
@@ -57,13 +57,13 @@ import { projectPrompts } from '../data/portfolio';
               <circle class="drawing-dot" cx="246" cy="65" r="5" />
             </svg>
           )}
-          <span class="art-caption">ILUSTRACIÓN TEMPORAL · AÑADIR FOTO REAL</span>
+          <span class="art-caption">TEMPORARY ART · ADD A REAL PROJECT IMAGE</span>
         </div>
         <div class="card-copy">
           <p class="project-label">{project.label}</p>
           <h3>{project.title}</h3>
           <p class="project-prompt">{project.prompt}</p>
-          <div class="project-fields"><span>Reto</span><span>Decisiones</span><span>Resultado</span></div>
+          <div class="project-fields"><span>Challenge</span><span>Decisions</span><span>Outcome</span></div>
         </div>
       </article>
     ))}
@@ -117,15 +117,15 @@ import { projectPrompts } from '../data/portfolio';
     box-shadow: 0 20px 30px rgb(0 30 22 / 32%);
   }
 
-  .project-alto {
+  .project-high {
     margin-top: 8px;
   }
 
-  .project-medio {
+  .project-middle {
     margin-top: 55px;
   }
 
-  .project-bajo {
+  .project-low {
     margin-top: 19px;
   }
 
@@ -259,11 +259,11 @@ import { projectPrompts } from '../data/portfolio';
       min-height: 410px;
     }
 
-    .project-medio {
+    .project-middle {
       margin-top: 38px;
     }
 
-    .project-bajo {
+    .project-low {
       margin-top: -5px;
       margin-left: 50%;
     }

@@ -1,7 +1,7 @@
-<section class="workbench" id="inicio" data-drag-surface aria-labelledby="hero-title">
+<section class="workbench" id="home" data-drag-surface aria-labelledby="hero-title">
   <div class="bench-meta" aria-hidden="true">
-    <span>MESA / CG—01</span>
-    <span>MECATRÓNICA</span>
+    <span>WORKBENCH / CG—01</span>
+    <span>MECHATRONICS</span>
   </div>
 
   <button
@@ -9,12 +9,12 @@
     type="button"
     data-draggable
     data-drag-key="idea-note"
-    aria-label="Nota movible: ideas a sistemas"
+    aria-label="Movable note: ideas to systems"
     aria-describedby="drag-instructions"
   >
-    <strong>IDEAS → SISTEMAS</strong>
-    <span>mecánica</span>
-    <span>electrónica</span>
+    <strong>IDEAS → SYSTEMS</strong>
+    <span>mechanics</span>
+    <span>electronics</span>
     <span>control</span>
   </button>
 
@@ -23,7 +23,7 @@
     type="button"
     data-draggable
     data-drag-key="gear"
-    aria-label="Engranaje movible"
+    aria-label="Movable gear"
     aria-describedby="drag-instructions"
   >
     <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
@@ -38,20 +38,20 @@
     type="button"
     data-draggable
     data-drag-key="process-note"
-    aria-label="Nota movible: observar, diseñar, probar"
+    aria-label="Movable note: observe, design, test"
     aria-describedby="drag-instructions"
   >
-    <strong>EN PROCESO</strong>
-    <span>observar</span>
-    <span>diseñar</span>
-    <span>probar</span>
+    <strong>IN PROGRESS</strong>
+    <span>observe</span>
+    <span>design</span>
+    <span>test</span>
   </button>
 
-  <div class="loose-object ruler-object" data-draggable data-drag-key="ruler" tabindex="0" role="img" aria-label="Regla ilustrada movible" aria-describedby="drag-instructions">
+  <div class="loose-object ruler-object" data-draggable data-drag-key="ruler" tabindex="0" role="img" aria-label="Movable illustrated ruler" aria-describedby="drag-instructions">
     <span></span><span></span><span></span><span></span><span></span><span></span>
   </div>
 
-  <div class="loose-object sketch-note" data-draggable data-drag-key="sketch" tabindex="0" role="img" aria-label="Boceto geométrico movible" aria-describedby="drag-instructions">
+  <div class="loose-object sketch-note" data-draggable data-drag-key="sketch" tabindex="0" role="img" aria-label="Movable geometric sketch" aria-describedby="drag-instructions">
     <svg viewBox="0 0 120 90" fill="none" aria-hidden="true">
       <circle cx="38" cy="42" r="22" />
       <circle cx="38" cy="42" r="6" />
@@ -63,25 +63,25 @@
   <span class="tape-mark" aria-hidden="true"></span>
 
   <article class="hero-paper">
-    <p class="paper-label">Portafolio · Ingeniería Mecatrónica</p>
-    <h1 id="hero-title">Diseño ideas.<br /><span>Construyo<br />sistemas.</span></h1>
+    <p class="paper-label">Mechatronics portfolio</p>
+    <h1 id="hero-title">I shape ideas.<br /><span>I build<br />systems.</span></h1>
     <p class="hero-copy">
-      Un espacio para mostrar cómo las ideas conectan mecanismos, electrónica y control en sistemas que se mueven.
+      A space to show how ideas connect mechanisms, electronics and control in systems that move.
     </p>
     <div class="hero-actions">
-      <a class="primary-action" href="#proyectos">Ver proyectos <span aria-hidden="true">↘</span></a>
-      <a class="text-action" href="#areas">Explorar áreas</a>
+      <a class="primary-action" href="#projects">View projects <span aria-hidden="true">↘</span></a>
+      <a class="text-action" href="#areas">Explore areas</a>
     </div>
   </article>
 
   <div class="bench-footer">
-    <p id="drag-instructions">Ratón o dedo para arrastrar; flechas para ajustar.</p>
+    <p id="drag-instructions">Drag with a mouse or touch; use arrow keys to fine-tune.</p>
     <div class="bench-controls">
-      <button type="button" data-reset-layout>Restaurar mesa</button>
-      <button type="button" data-toggle-help aria-expanded="false" aria-controls="drag-help">Cómo mover</button>
+      <button type="button" data-reset-layout>Reset layout</button>
+      <button type="button" data-toggle-help aria-expanded="false" aria-controls="drag-help">Move items</button>
     </div>
   </div>
-  <p class="drag-help" id="drag-help" hidden>Arrastra los objetos para reordenarlos. Enfoca uno y usa las flechas del teclado para moverlo con precisión.</p>
+  <p class="drag-help" id="drag-help" hidden>Drag objects to rearrange them. Focus an item and use the arrow keys to move it precisely.</p>
 </section>
 
 <script>
@@ -123,7 +123,7 @@
     try {
       localStorage.setItem(storageKey, JSON.stringify(layout));
     } catch {
-      // La mesa sigue siendo usable aunque el navegador no permita guardar preferencias.
+      // The workbench remains usable if the browser cannot save preferences.
     }
   }
 
@@ -193,7 +193,7 @@
     try {
       localStorage.removeItem(storageKey);
     } catch {
-      // No se requiere persistencia para restablecer el diseño.
+      // Persistence is not required to restore the default layout.
     }
     location.reload();
   });

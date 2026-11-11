@@ -1,34 +1,56 @@
-# Portafolio de Mecatrónica
+# Mechatronics Portfolio
 
-Sitio independiente en **Astro** para separar el perfil de hardware/Mecatrónica del portafolio existente de software. El diseño aprobado usa el tapete verde en toda la página y una composición de tarjetas de proyectos tipo cuaderno.
+An independent Astro portfolio for the hardware and mechatronics side of Carlos Gordillo's work.
 
-## Desarrollo
+![Portfolio preview inside a macOS-style window](./preview.png)
+
+## Overview
+
+The page is an interactive engineering workbench: a green cutting-mat surface runs throughout the site, while loose notes and notebook-style project cards can be rearranged.
+
+## Features
+
+- Drag notes, tools and project cards with a mouse or touch.
+- Move focused items with the arrow keys.
+- Save the workbench layout in the browser or restore the default arrangement.
+- Responsive layout with no drag interaction required to reach the content.
+- Astro static output with lightweight, client-side interactions.
+
+## Stack
+
+- Astro 7.4.8
+- TypeScript
+- CSS and inline SVG
+
+## Run locally
+
+Requires Node.js 22.22.0 or later.
 
 ```bash
 npm install
 npm run dev
+```
+
+Quality checks:
+
+```bash
 npm run check
 npm run build
 ```
 
-Requiere Node.js 22.22.0 o superior. Astro genera un sitio estático en `dist/`.
+## Project structure
 
-## Contenido editable
+```text
+src/
+├── components/      # Workbench, practice areas, project cards and contact
+├── data/            # Editable profile, practice areas and project templates
+├── layouts/         # Shared page shell and metadata
+├── pages/           # Astro routes
+└── styles/          # Global workbench grid and design tokens
+```
 
-- `src/data/portfolio.ts`: nombre, contacto, áreas sugeridas y fichas de proyectos.
-- Los proyectos son plantillas vacías y los diagramas son ilustraciones temporales, no trabajos reales.
-- El correo y el perfil de GitHub se reutilizaron del portafolio público existente; se pueden cambiar en el mismo archivo.
+## Content status
 
-## Interacción
+The project cards and practice-area prompts are editable placeholders, not claims about completed work. Replace them with real project descriptions, tools and results in `src/data/portfolio.ts`.
 
-- Notas, herramientas y fichas de proyecto se pueden mover con ratón o tacto.
-- Foco + flechas de teclado ofrece una alternativa accesible.
-- La distribución se guarda en el navegador y puede restablecerse desde la mesa.
-- El fondo verde cuadriculado continúa por toda la página, también detrás de las secciones inferiores.
-
-## Dirección y referencia
-
-- `design-demos/direction-approved.md`: elección y alcance acordados.
-- `design-demos/directions.md`: las seis opciones y el razonamiento de diseño.
-- `design-demos/thumbs.html`: comparativa visual de las seis candidatas.
-- `product-facts.md`: fuentes oficiales y verificación de Astro.
+The contact email and GitHub profile are reused from the existing software portfolio and can also be changed in that file. This repository and site are separate from the software portfolio.
