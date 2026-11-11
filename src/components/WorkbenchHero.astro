@@ -1,0 +1,672 @@
+<section class="workbench" id="inicio" data-drag-surface aria-labelledby="hero-title">
+  <div class="bench-meta" aria-hidden="true">
+    <span>MESA / CG—01</span>
+    <span>MECATRÓNICA</span>
+  </div>
+
+  <button
+    class="loose-object note note-ideas"
+    type="button"
+    data-draggable
+    data-drag-key="idea-note"
+    aria-label="Nota movible: ideas a sistemas"
+    aria-describedby="drag-instructions"
+  >
+    <strong>IDEAS → SISTEMAS</strong>
+    <span>mecánica</span>
+    <span>electrónica</span>
+    <span>control</span>
+  </button>
+
+  <button
+    class="loose-object gear-object"
+    type="button"
+    data-draggable
+    data-drag-key="gear"
+    aria-label="Engranaje movible"
+    aria-describedby="drag-instructions"
+  >
+    <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="50" r="33" />
+      <circle cx="50" cy="50" r="11" />
+      <path d="M50 5v14m0 62v14M5 50h14m62 0h14M18 18l10 10m44 44 10 10m0-64L72 28M28 72 18 82" />
+    </svg>
+  </button>
+
+  <button
+    class="loose-object note note-process"
+    type="button"
+    data-draggable
+    data-drag-key="process-note"
+    aria-label="Nota movible: observar, diseñar, probar"
+    aria-describedby="drag-instructions"
+  >
+    <strong>EN PROCESO</strong>
+    <span>observar</span>
+    <span>diseñar</span>
+    <span>probar</span>
+  </button>
+
+  <div class="loose-object ruler-object" data-draggable data-drag-key="ruler" tabindex="0" role="img" aria-label="Regla ilustrada movible" aria-describedby="drag-instructions">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="loose-object sketch-note" data-draggable data-drag-key="sketch" tabindex="0" role="img" aria-label="Boceto geométrico movible" aria-describedby="drag-instructions">
+    <svg viewBox="0 0 120 90" fill="none" aria-hidden="true">
+      <circle cx="38" cy="42" r="22" />
+      <circle cx="38" cy="42" r="6" />
+      <path d="M60 42h40m-14-14 14 14-14 14M15 76h90M28 14l21 58" />
+      <path d="M78 15h25M90 4v22" stroke-dasharray="3 5" />
+    </svg>
+  </div>
+
+  <span class="tape-mark" aria-hidden="true"></span>
+
+  <article class="hero-paper">
+    <p class="paper-label">Portafolio · Ingeniería Mecatrónica</p>
+    <h1 id="hero-title">Diseño ideas.<br /><span>Construyo<br />sistemas.</span></h1>
+    <p class="hero-copy">
+      Un espacio para mostrar cómo las ideas conectan mecanismos, electrónica y control en sistemas que se mueven.
+    </p>
+    <div class="hero-actions">
+      <a class="primary-action" href="#proyectos">Ver proyectos <span aria-hidden="true">↘</span></a>
+      <a class="text-action" href="#areas">Explorar áreas</a>
+    </div>
+  </article>
+
+  <div class="bench-footer">
+    <p id="drag-instructions">Ratón o dedo para arrastrar; flechas para ajustar.</p>
+    <div class="bench-controls">
+      <button type="button" data-reset-layout>Restaurar mesa</button>
+      <button type="button" data-toggle-help aria-expanded="false" aria-controls="drag-help">Cómo mover</button>
+    </div>
+  </div>
+  <p class="drag-help" id="drag-help" hidden>Arrastra los objetos para reordenarlos. Enfoca uno y usa las flechas del teclado para moverlo con precisión.</p>
+</section>
+
+<script>
+  const storageKey = 'carlos-mechatronics-workbench-v1';
+  const draggables = [...document.querySelectorAll<HTMLElement>('[data-draggable]')];
+  type StoredPosition = { x: number; y: number };
+  let layout: Record<string, StoredPosition> = {};
+
+  try {
+    layout = JSON.parse(localStorage.getItem(storageKey) || '{}') as Record<string, StoredPosition>;
+  } catch {
+    layout = {};
+  }
+
+  const surfaceFor = (item: HTMLElement): HTMLElement | null => item.closest<HTMLElement>('[data-drag-surface]');
+  const offsetFor = (item: HTMLElement): StoredPosition => ({
+    x: Number.parseFloat(item.style.getPropertyValue('--drag-x')) || 0,
+    y: Number.parseFloat(item.style.getPropertyValue('--drag-y')) || 0,
+  });
+
+  function applySavedPosition(item: HTMLElement) {
+    const key = item.dataset.dragKey;
+    if (!key) return;
+    const saved = layout[key];
+    const surface = surfaceFor(item);
+    if (!saved || !surface) return;
+    item.style.setProperty('--drag-x', `${saved.x * surface.clientWidth / 100}px`);
+    item.style.setProperty('--drag-y', `${saved.y * surface.clientHeight / 100}px`);
+  }
+
+  function persistPosition(item: HTMLElement, x: number, y: number) {
+    const surface = surfaceFor(item);
+    const key = item.dataset.dragKey;
+    if (!surface || !key) return;
+    layout[key] = {
+      x: x / surface.clientWidth * 100,
+      y: y / surface.clientHeight * 100,
+    };
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(layout));
+    } catch {
+      // La mesa sigue siendo usable aunque el navegador no permita guardar preferencias.
+    }
+  }
+
+  function moveBy(item: HTMLElement, x: number, y: number) {
+    const surface = surfaceFor(item);
+    if (!surface) return;
+    const baseX = item.offsetLeft;
+    const baseY = item.offsetTop;
+    const maxX = Math.max(-baseX, surface.clientWidth - item.offsetWidth - baseX);
+    const maxY = Math.max(-baseY, surface.clientHeight - item.offsetHeight - baseY);
+    const nextX = Math.min(maxX, Math.max(-baseX, x));
+    const nextY = Math.min(maxY, Math.max(-baseY, y));
+    item.style.setProperty('--drag-x', `${nextX}px`);
+    item.style.setProperty('--drag-y', `${nextY}px`);
+    persistPosition(item, nextX, nextY);
+  }
+
+  draggables.forEach((item) => {
+    applySavedPosition(item);
+    let dragStart: (StoredPosition & { pointerX: number; pointerY: number }) | null = null;
+
+    item.addEventListener('pointerdown', (event) => {
+      if (event.button !== undefined && event.button !== 0) return;
+      const current = offsetFor(item);
+      dragStart = { pointerX: event.clientX, pointerY: event.clientY, ...current };
+      item.classList.add('is-dragging');
+      item.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    item.addEventListener('pointermove', (event) => {
+      if (!dragStart) return;
+      moveBy(
+        item,
+        dragStart.x + event.clientX - dragStart.pointerX,
+        dragStart.y + event.clientY - dragStart.pointerY,
+      );
+    });
+
+    const finishDrag = () => {
+      dragStart = null;
+      item.classList.remove('is-dragging');
+    };
+
+    item.addEventListener('pointerup', finishDrag);
+    item.addEventListener('pointercancel', finishDrag);
+    item.addEventListener('lostpointercapture', finishDrag);
+
+    item.addEventListener('keydown', (event) => {
+      const steps: Partial<Record<KeyboardEvent['key'], [number, number]>> = {
+        ArrowLeft: [-12, 0],
+        ArrowRight: [12, 0],
+        ArrowUp: [0, -12],
+        ArrowDown: [0, 12],
+      };
+      const step = steps[event.key];
+      if (!step) return;
+      event.preventDefault();
+      const current = offsetFor(item);
+      moveBy(item, current.x + step[0], current.y + step[1]);
+    });
+  });
+
+  window.addEventListener('resize', () => draggables.forEach(applySavedPosition));
+
+  document.querySelector('[data-reset-layout]')?.addEventListener('click', () => {
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {
+      // No se requiere persistencia para restablecer el diseño.
+    }
+    location.reload();
+  });
+
+  const helpButton = document.querySelector<HTMLButtonElement>('[data-toggle-help]');
+  const helpMessage = document.querySelector<HTMLElement>('#drag-help');
+  helpButton?.addEventListener('click', () => {
+    if (!helpMessage) return;
+    const isOpen = helpButton.getAttribute('aria-expanded') === 'true';
+    helpButton.setAttribute('aria-expanded', String(!isOpen));
+    helpMessage.hidden = isOpen;
+  });
+</script>
+
+<style>
+  .workbench {
+    position: relative;
+    min-height: 790px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .workbench::after {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 48%, transparent 10%, rgb(0 42 31 / 16%) 100%);
+    content: '';
+    pointer-events: none;
+  }
+
+  .bench-meta {
+    position: absolute;
+    z-index: 4;
+    top: 22px;
+    right: var(--page-gutter);
+    left: var(--page-gutter);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: #edf4e8;
+    font: 12px var(--mono);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .hero-paper {
+    position: absolute;
+    z-index: 2;
+    top: 18%;
+    left: 24%;
+    width: min(61%, 820px);
+    padding: clamp(32px, 4.4vw, 64px) clamp(34px, 5vw, 74px) clamp(36px, 4.8vw, 68px);
+    color: var(--ink);
+    background: var(--paper);
+    clip-path: polygon(2% 4%, 8% 1%, 14% 4%, 22% 0, 30% 4%, 39% 1%, 48% 5%, 57% 0, 66% 4%, 75% 1%, 85% 5%, 94% 1%, 98% 7%, 96% 18%, 100% 29%, 97% 42%, 100% 54%, 96% 66%, 99% 78%, 95% 91%, 98% 98%, 85% 96%, 75% 100%, 64% 96%, 53% 100%, 42% 96%, 31% 100%, 20% 96%, 8% 99%, 4% 92%, 1% 81%, 4% 67%, 0 55%, 4% 43%, 1% 29%, 5% 17%);
+    filter: drop-shadow(0 18px 16px rgb(0 41 29 / 28%));
+    transform: rotate(-1.3deg);
+  }
+
+  .paper-label {
+    margin: 0 0 17px;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(58px, 7.4vw, 106px);
+    font-weight: 760;
+    letter-spacing: -.075em;
+    line-height: .86;
+  }
+
+  h1 span {
+    color: var(--signal);
+  }
+
+  .hero-copy {
+    max-width: 560px;
+    margin: 25px 0 22px;
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+  }
+
+  .primary-action,
+  .text-action {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    font: 12px var(--mono);
+  }
+
+  .primary-action {
+    padding: 0 16px;
+    color: #fff;
+    background: var(--signal);
+    text-transform: uppercase;
+  }
+
+  .text-action {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+
+  .loose-object,
+  .sketch-note {
+    position: absolute;
+    z-index: 3;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    translate: var(--drag-x, 0px) var(--drag-y, 0px);
+    transition: box-shadow .2s ease;
+  }
+
+  .loose-object:active,
+  .sketch-note:active,
+  .is-dragging {
+    cursor: grabbing;
+  }
+
+  .is-dragging {
+    z-index: 8 !important;
+    filter: drop-shadow(0 14px 12px rgb(0 31 22 / 28%));
+  }
+
+  .note {
+    width: 160px;
+    min-height: 116px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 17px 14px;
+    border: 0;
+    color: #453c24;
+    background: var(--yellow);
+    box-shadow: 0 6px 0 #b89432;
+    font: 13px/1.45 var(--mono);
+    text-align: left;
+  }
+
+  .note strong {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .note-ideas {
+    top: 18%;
+    left: 8%;
+    transform: rotate(-6deg);
+  }
+
+  .note-process {
+    top: 29%;
+    right: 7%;
+    width: 140px;
+    background: var(--paper-light);
+    box-shadow: 0 6px 0 #cbbf9d;
+    transform: rotate(5deg);
+  }
+
+  .gear-object {
+    top: 14%;
+    right: 18%;
+    width: 112px;
+    height: 112px;
+    display: grid;
+    place-items: center;
+    padding: 15px;
+    border: 9px dashed #d8b647;
+    border-radius: 50%;
+    background: var(--signal);
+    transform: rotate(8deg);
+  }
+
+  .gear-object svg {
+    width: 100%;
+    stroke: #fff5db;
+    stroke-width: 4;
+  }
+
+  .ruler-object {
+    top: 58%;
+    left: 8%;
+    width: 142px;
+    height: 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    border: 2px solid #344e42;
+    background: #e4dbc2;
+    transform: rotate(34deg);
+  }
+
+  .ruler-object span {
+    width: 2px;
+    height: 9px;
+    background: #344e42;
+  }
+
+  .ruler-object span:nth-child(3n + 1) {
+    height: 14px;
+  }
+
+  .sketch-note {
+    right: 31%;
+    bottom: 7%;
+    width: 138px;
+    height: 112px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #756a4c;
+    background: #ece1c4;
+    box-shadow: 4px 6px 0 rgb(2 35 26 / 22%);
+    transform: rotate(6deg);
+  }
+
+  .sketch-note svg {
+    width: 82%;
+    stroke: #494936;
+    stroke-width: 2;
+  }
+
+  .tape-mark {
+    position: absolute;
+    top: 15%;
+    left: 47%;
+    width: 88px;
+    height: 22px;
+    background: rgb(241 206 85 / 72%);
+    transform: rotate(-10deg);
+  }
+
+  .bench-footer {
+    position: absolute;
+    z-index: 5;
+    right: var(--page-gutter);
+    bottom: 20px;
+    left: var(--page-gutter);
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .bench-footer p {
+    max-width: 450px;
+    margin: 0;
+    color: #edf4e8;
+    font: 13px/1.45 var(--mono);
+  }
+
+  .bench-controls {
+    display: flex;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+
+  .bench-controls button {
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px solid rgb(245 239 217 / 75%);
+    background: rgb(4 69 50 / 80%);
+    color: var(--paper);
+    cursor: pointer;
+    font: 11px var(--mono);
+  }
+
+  .bench-controls button:hover {
+    color: var(--ink);
+    background: var(--yellow);
+  }
+
+  .drag-help {
+    position: absolute;
+    z-index: 9;
+    right: var(--page-gutter);
+    bottom: 72px;
+    width: min(350px, calc(100% - 2 * var(--page-gutter)));
+    margin: 0;
+    padding: 14px 16px;
+    color: var(--ink);
+    background: var(--paper-light);
+    box-shadow: 0 7px 20px rgb(0 0 0 / 18%);
+    font-size: 14px;
+  }
+
+  .drag-help[hidden] {
+    display: none;
+  }
+
+  .bench-meta,
+  .paper-label,
+  .primary-action,
+  .text-action,
+  .bench-footer p,
+  .bench-controls button,
+  .note,
+  .note strong,
+  .drag-help {
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .workbench {
+      min-height: 760px;
+    }
+
+    .hero-paper {
+      top: 25%;
+      left: 15%;
+      width: 70%;
+      padding: 38px 38px 42px;
+    }
+
+    .gear-object {
+      top: 15%;
+      right: 8%;
+      width: 92px;
+      height: 92px;
+    }
+
+    .note-ideas {
+      top: 14%;
+      left: 5%;
+      width: 135px;
+    }
+
+    .note-process {
+      top: 20%;
+      right: 4%;
+      width: 122px;
+    }
+
+    .ruler-object {
+      top: 58%;
+      left: 5%;
+    }
+
+    .sketch-note {
+      right: 28%;
+      bottom: 7%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .workbench {
+      min-height: 790px;
+    }
+
+    .bench-meta {
+      top: 16px;
+      right: 18px;
+      left: 18px;
+      font-size: 12px;
+    }
+
+    .bench-meta span:last-child {
+      max-width: 42%;
+      text-align: right;
+    }
+
+    .hero-paper {
+      top: 29%;
+      left: 7%;
+      width: 86%;
+      padding: 32px 29px 37px;
+    }
+
+    .paper-label {
+      margin-bottom: 13px;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: clamp(43px, 11.5vw, 56px);
+      line-height: .9;
+    }
+
+    .hero-copy {
+      margin: 19px 0;
+      font-size: 15px;
+    }
+
+    .hero-actions {
+      gap: 12px;
+    }
+
+    .primary-action,
+    .text-action {
+      min-height: 42px;
+      font-size: 12px;
+    }
+
+    .note-ideas {
+      top: 12%;
+      left: 4%;
+      width: 112px;
+      min-height: 92px;
+      padding: 11px;
+      font-size: 12px;
+    }
+
+    .note-ideas strong,
+    .note-process strong {
+      font-size: 12px;
+    }
+
+    .note-process {
+      top: 17%;
+      right: 3%;
+      width: 105px;
+      min-height: 85px;
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .gear-object {
+      top: 18%;
+      right: 35%;
+      width: 65px;
+      height: 65px;
+      padding: 8px;
+      border-width: 6px;
+    }
+
+    .ruler-object {
+      display: none;
+    }
+
+    .sketch-note {
+      display: none;
+    }
+
+    .tape-mark {
+      display: none;
+    }
+
+    .bench-footer {
+      right: 18px;
+      bottom: 14px;
+      left: 18px;
+      align-items: end;
+    }
+
+    .bench-footer p {
+      max-width: 44%;
+      font-size: 12px;
+    }
+
+    .bench-controls {
+      gap: 6px;
+    }
+
+    .bench-controls button {
+      min-height: 38px;
+      padding-inline: 8px;
+      font-size: 12px;
+    }
+
+    .drag-help {
+      right: 18px;
+      bottom: 62px;
+    }
+  }
+</style>

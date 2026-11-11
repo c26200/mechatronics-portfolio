@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import WorkbenchHero from '../components/WorkbenchHero.astro';
+import PracticeAreas from '../components/PracticeAreas.astro';
+import ProjectWall from '../components/ProjectWall.astro';
+import ProjectStory from '../components/ProjectStory.astro';
+import ContactPanel from '../components/ContactPanel.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <SiteHeader />
+  <main id="contenido">
+    <WorkbenchHero />
+    <PracticeAreas />
+    <ProjectWall />
+    <ProjectStory />
+    <ContactPanel />
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<style>
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: 10px;
+    left: 10px;
+    padding: 10px 14px;
+    color: var(--ink);
+    background: var(--paper);
+    transform: translateY(-160%);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+</style>

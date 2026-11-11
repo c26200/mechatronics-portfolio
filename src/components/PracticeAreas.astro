@@ -1,0 +1,92 @@
+---
+import { practiceAreas } from '../data/portfolio';
+---
+
+<section class="areas section-shell" id="areas" aria-labelledby="areas-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Una disciplina de conexiones</p>
+      <h2 id="areas-title">Varias piezas.<br />Un mismo sistema.</h2>
+    </div>
+    <p>
+      Estos bloques son una estructura inicial. Se completarán con tus herramientas, tecnologías y áreas reales de dominio.
+    </p>
+  </div>
+
+  <div class="area-grid">
+    {practiceAreas.map((area) => (
+      <article class="area-card" data-area={area.id}>
+        <span class="area-mark" aria-hidden="true">{area.mark}</span>
+        <p class="area-label">{area.label}</p>
+        <p class="area-prompt">{area.prompt}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .areas {
+    padding-block: clamp(72px, 10vw, 132px);
+  }
+
+  .area-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid rgb(244 239 217 / 47%);
+    border-bottom: 1px solid rgb(244 239 217 / 47%);
+  }
+
+  .area-card {
+    position: relative;
+    min-height: 210px;
+    padding: 25px 26px 28px 0;
+  }
+
+  .area-card + .area-card {
+    padding-left: 26px;
+    border-left: 1px solid rgb(244 239 217 / 36%);
+  }
+
+  .area-mark {
+    color: var(--yellow);
+    font: 12px var(--mono);
+  }
+
+  .area-label {
+    margin: 31px 0 9px;
+    font-family: var(--display);
+    font-size: clamp(21px, 2.4vw, 30px);
+    font-weight: 650;
+    letter-spacing: -.035em;
+    line-height: 1.05;
+  }
+
+  .area-prompt {
+    max-width: 320px;
+    margin: 0;
+    color: #e3eee0;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 700px) {
+    .area-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .area-card,
+    .area-card + .area-card {
+      min-height: 0;
+      padding: 18px 0 20px;
+      border-left: 0;
+    }
+
+    .area-card + .area-card {
+      border-top: 1px solid rgb(244 239 217 / 36%);
+    }
+
+    .area-label {
+      margin: 13px 0 7px;
+    }
+  }
+</style>

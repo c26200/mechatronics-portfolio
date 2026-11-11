@@ -1,0 +1,112 @@
+<section class="story section-shell" id="proceso" aria-labelledby="story-title">
+  <div class="story-note">
+    <p class="paper-label">Una buena ficha técnica</p>
+    <h2 id="story-title">Del problema<br />a la prueba.</h2>
+    <p class="story-intro">
+      La estructura para documentar cada proyecto con claridad; completar cada paso con decisiones y evidencia reales.
+    </p>
+  </div>
+  <div class="story-steps" aria-label="Estructura sugerida para contar un proyecto">
+    <article><span>Reto</span><p>¿Qué necesidad había que resolver?</p></article>
+    <article><span>Diseño</span><p>¿Qué alternativas y decisiones tomaste?</p></article>
+    <article><span>Prueba</span><p>¿Cómo verificaste que funcionara?</p></article>
+    <article><span>Resultado</span><p>¿Qué cambió y cómo lo mediste?</p></article>
+  </div>
+</section>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr);
+    align-items: center;
+    gap: clamp(42px, 8vw, 110px);
+    padding-block: clamp(50px, 8vw, 94px);
+  }
+
+  .story-note {
+    position: relative;
+    padding: 35px 38px 40px;
+    color: var(--ink);
+    background: var(--paper);
+    box-shadow: 0 10px 0 rgb(3 48 35 / 18%);
+    transform: rotate(-1.2deg);
+  }
+
+  .story-note::before {
+    position: absolute;
+    top: -10px;
+    left: 38%;
+    width: 112px;
+    height: 20px;
+    background: rgb(241 206 85 / 79%);
+    content: '';
+    transform: rotate(-3deg);
+  }
+
+  .story-note h2 {
+    margin: 17px 0 13px;
+    font-family: var(--display);
+    font-size: clamp(42px, 5vw, 65px);
+    letter-spacing: -.065em;
+    line-height: .91;
+  }
+
+  .story-intro {
+    max-width: 400px;
+    margin: 0;
+    color: var(--muted-ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .story-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid rgb(244 239 217 / 49%);
+    border-left: 1px solid rgb(244 239 217 / 49%);
+  }
+
+  .story-steps article {
+    min-height: 138px;
+    padding: 18px 20px;
+    border-right: 1px solid rgb(244 239 217 / 49%);
+    border-bottom: 1px solid rgb(244 239 217 / 49%);
+  }
+
+  .story-steps span {
+    color: var(--yellow);
+    font: 12px var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .story-steps p {
+    max-width: 230px;
+    margin: 20px 0 0;
+    color: #e8f1e4;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 760px) {
+    .story {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .story-note {
+      padding: 29px 27px 32px;
+    }
+
+    .story-steps article {
+      min-height: 128px;
+      padding: 15px 13px;
+    }
+
+    .story-steps p {
+      font-size: 14px;
+    }
+  }
+</style>

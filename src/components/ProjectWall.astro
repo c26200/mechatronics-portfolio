@@ -1,0 +1,298 @@
+---
+import { projectPrompts } from '../data/portfolio';
+---
+
+<section class="projects section-shell" id="proyectos" aria-labelledby="projects-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Fichas de taller</p>
+      <h2 id="projects-title">Proyectos que<br />cuentan el proceso.</h2>
+    </div>
+    <p>
+      Tarjetas de trabajo por completar con proyectos reales. Se pueden reacomodar como hojas sobre la mesa.
+    </p>
+  </div>
+
+  <div class="project-wall" data-drag-surface>
+    {projectPrompts.map((project) => (
+      <article
+        class={`project-card project-${project.position}`}
+        style={`--card-tilt:${project.tilt}`}
+        data-draggable
+        data-drag-key={project.id}
+        tabindex="0"
+        aria-label={`${project.title}. Ficha de proyecto movible`}
+        aria-describedby="drag-instructions"
+      >
+        <div class="card-topline">
+          <span>FICHA / POR COMPLETAR</span>
+          <span class="card-pin" aria-hidden="true"></span>
+        </div>
+        <div class={`project-art art-${project.visual}`} aria-label="Ilustración temporal, reemplazar con imagen del proyecto" role="img">
+          {project.visual === 'mechanism' && (
+            <svg viewBox="0 0 320 190" fill="none" aria-hidden="true">
+              <path class="drawing-line" d="M45 133h225M60 133V60h67v73m0-38h76v38m0-63h49v63" />
+              <circle class="drawing-accent" cx="92" cy="97" r="23" />
+              <circle class="drawing-line" cx="92" cy="97" r="7" />
+              <path class="drawing-dash" d="M42 43h228M45 35v16m225-16v16M160 62v74" />
+              <path class="drawing-line" d="m204 84 16 14-16 14" />
+            </svg>
+          )}
+          {project.visual === 'circuit' && (
+            <svg viewBox="0 0 320 190" fill="none" aria-hidden="true">
+              <path class="drawing-line" d="M44 48h56v34h45m28 0h94v55h-58m-28 0h-50v27H44V82" />
+              <rect class="drawing-accent" x="101" y="62" width="77" height="68" rx="4" />
+              <path class="drawing-line" d="M119 81h41m-41 15h41m-41 15h28" />
+              <circle class="drawing-dot" cx="44" cy="48" r="6" />
+              <circle class="drawing-dot" cx="267" cy="137" r="6" />
+              <path class="drawing-dash" d="M44 155h41m171-107h40" />
+            </svg>
+          )}
+          {project.visual === 'signal' && (
+            <svg viewBox="0 0 320 190" fill="none" aria-hidden="true">
+              <path class="drawing-dash" d="M42 145h235M53 41v106" />
+              <path class="drawing-accent" d="M54 113c18 0 18-54 37-54s18 76 38 76 18-45 38-45 18 20 37 20 18-45 42-45 19 19 31 19" />
+              <circle class="drawing-dot" cx="92" cy="59" r="5" />
+              <circle class="drawing-dot" cx="167" cy="90" r="5" />
+              <circle class="drawing-dot" cx="246" cy="65" r="5" />
+            </svg>
+          )}
+          <span class="art-caption">ILUSTRACIÓN TEMPORAL · AÑADIR FOTO REAL</span>
+        </div>
+        <div class="card-copy">
+          <p class="project-label">{project.label}</p>
+          <h3>{project.title}</h3>
+          <p class="project-prompt">{project.prompt}</p>
+          <div class="project-fields"><span>Reto</span><span>Decisiones</span><span>Resultado</span></div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .projects {
+    padding-block: 58px clamp(90px, 12vw, 150px);
+  }
+
+  .project-wall {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 25px;
+  }
+
+  .project-card {
+    position: relative;
+    min-width: 0;
+    min-height: 430px;
+    padding: 16px 16px 19px;
+    color: var(--ink);
+    background: var(--paper);
+    box-shadow: 0 10px 0 rgb(3 48 35 / 20%), 0 18px 28px rgb(0 38 27 / 15%);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    transform: translate(var(--drag-x, 0px), var(--drag-y, 0px)) rotate(var(--card-tilt));
+    transition: box-shadow .2s ease, filter .2s ease;
+  }
+
+  .project-card::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(225deg, var(--mat) 0 49%, #d9cfb2 50% 53%, #fff7e1 55%);
+    content: '';
+  }
+
+  .project-card:active {
+    cursor: grabbing;
+  }
+
+  .project-card.is-dragging {
+    z-index: 5;
+    box-shadow: 0 20px 30px rgb(0 30 22 / 32%);
+  }
+
+  .project-alto {
+    margin-top: 8px;
+  }
+
+  .project-medio {
+    margin-top: 55px;
+  }
+
+  .project-bajo {
+    margin-top: 19px;
+  }
+
+  .card-topline {
+    min-height: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    padding-right: 20px;
+    color: #626350;
+    font: 10px var(--mono);
+    letter-spacing: .06em;
+  }
+
+  .card-pin {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 1px 0 #733022;
+  }
+
+  .project-art {
+    position: relative;
+    height: 196px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid #cfc8b1;
+    background-color: #eee8d4;
+    background-image:
+      linear-gradient(rgb(91 117 99 / 12%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(91 117 99 / 12%) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .project-art svg {
+    width: min(82%, 300px);
+    height: 76%;
+  }
+
+  .drawing-line {
+    stroke: #3d5547;
+    stroke-width: 2.5;
+  }
+
+  .drawing-accent {
+    stroke: var(--signal);
+    stroke-width: 3;
+  }
+
+  .drawing-dash {
+    stroke: #697c66;
+    stroke-width: 1.5;
+    stroke-dasharray: 4 6;
+  }
+
+  .drawing-dot {
+    fill: var(--yellow);
+    stroke: #78612a;
+    stroke-width: 1.5;
+  }
+
+  .art-caption {
+    position: absolute;
+    right: 8px;
+    bottom: 7px;
+    left: 8px;
+    color: #55594d;
+    font: 10px var(--mono);
+    text-align: center;
+  }
+
+  .card-copy {
+    padding: 17px 2px 0;
+  }
+
+  .project-label {
+    margin: 0;
+    color: #69704f;
+    font: 11px var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .card-copy h3 {
+    margin: 10px 0 7px;
+    font-family: var(--display);
+    font-size: clamp(23px, 2.5vw, 31px);
+    font-weight: 700;
+    letter-spacing: -.05em;
+    line-height: 1;
+  }
+
+  .project-prompt {
+    min-height: 46px;
+    margin: 0;
+    color: var(--muted-ink);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .project-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .project-fields span {
+    padding: 5px 7px;
+    border: 1px solid #c9c3ad;
+    color: #505541;
+    font: 10px var(--mono);
+  }
+
+  .card-topline,
+  .art-caption,
+  .project-label,
+  .project-fields span {
+    font-size: 12px;
+  }
+
+  @media (max-width: 920px) {
+    .project-wall {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .project-card {
+      min-height: 410px;
+    }
+
+    .project-medio {
+      margin-top: 38px;
+    }
+
+    .project-bajo {
+      margin-top: -5px;
+      margin-left: 50%;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .projects {
+      padding-top: 55px;
+    }
+
+    .project-wall {
+      grid-template-columns: 1fr;
+      gap: 17px;
+    }
+
+    .project-card {
+      width: min(100% - 8px, 430px);
+      min-height: 0;
+      margin: 0 auto !important;
+      padding: 13px 13px 16px;
+      transform: translate(var(--drag-x, 0px), var(--drag-y, 0px)) rotate(var(--card-tilt));
+    }
+
+    .project-art {
+      height: 168px;
+    }
+
+    .project-prompt {
+      min-height: 0;
+    }
+  }
+</style>

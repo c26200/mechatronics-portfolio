@@ -1,0 +1,158 @@
+---
+import { profile } from '../data/portfolio';
+
+const links = [
+  { href: '#areas', label: 'Áreas' },
+  { href: '#proyectos', label: 'Proyectos' },
+  { href: '#proceso', label: 'Proceso' },
+  { href: '#contacto', label: 'Contacto' },
+];
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#inicio" aria-label={`${profile.name}, inicio`}>
+      <span class="brand-mark" aria-hidden="true">CG</span>
+      <span class="brand-name"><strong>{profile.name}</strong><small>Mecatrónica</small></span>
+    </a>
+    <nav aria-label="Navegación principal">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+    <span class="header-status"><i aria-hidden="true"></i> Portafolio de hardware</span>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 20;
+    border-bottom: 1px solid rgb(244 239 217 / 28%);
+    background: rgb(5 69 50 / 88%);
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    width: min(100% - 2 * var(--page-gutter), 1440px);
+    min-height: 68px;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    background: var(--paper);
+    color: var(--mat-deep);
+    font: 700 13px var(--mono);
+    letter-spacing: -.06em;
+  }
+
+  .brand-name {
+    display: grid;
+    line-height: 1.15;
+  }
+
+  .brand-name strong {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .brand-name small {
+    margin-top: 3px;
+    color: #d3e6d7;
+    font: 10px var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2.3vw, 34px);
+    color: #f5efd9;
+    font-size: 14px;
+  }
+
+  nav a {
+    position: relative;
+    padding-block: 8px;
+  }
+
+  nav a::after {
+    position: absolute;
+    right: 0;
+    bottom: 1px;
+    left: 0;
+    height: 1px;
+    background: var(--yellow);
+    content: '';
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .2s ease;
+  }
+
+  nav a:hover::after,
+  nav a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .header-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #d9e8d6;
+    font: 11px var(--mono);
+    white-space: nowrap;
+  }
+
+  .header-status i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #bbdf83;
+    box-shadow: 0 0 0 3px rgb(187 223 131 / 15%);
+  }
+
+  .brand-name small,
+  .header-status {
+    font-size: 12px;
+  }
+
+  @media (max-width: 850px) {
+    .header-status {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .header-inner {
+      min-height: 62px;
+      gap: 12px;
+    }
+
+    .brand-name {
+      display: none;
+    }
+
+    nav {
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    nav a:nth-child(3) {
+      display: none;
+    }
+  }
+</style>
